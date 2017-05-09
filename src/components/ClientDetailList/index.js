@@ -10,7 +10,7 @@ class ClientDetailList extends Component{
 
     handleKeyUp = () => {
         var input, filter, table, tr, td, i;
-        input = document.getElementById("myInput");
+        input = document.getElementById("searchInput");
         filter = input.value.toUpperCase();
         table = document.getElementById("myTable");
         tr = table.getElementsByTagName("tr");
@@ -50,6 +50,13 @@ class ClientDetailList extends Component{
                 <input type="text" id="searchInput" onKeyUp={this.handleKeyUp} placeholder="Search by company name..." title="Type in a name" />
 
                     <table id="myTable">
+                        <tr className="header">
+                            <th >Company Name</th>
+                            <th >Domain Url </th>
+                            <th >Careers Url </th>
+                            <th > LinkedIn Url </th>
+                            <th > Board Token </th>
+                        </tr>
 
                         {clientDetailList}
 
@@ -72,11 +79,11 @@ function createClientDetailList(clientList){
         clientDetailList.push(
 
             <tr key ={i} className="header">
-                <th >{ client.default.companyName }</th>
-                <th >{ client.default.domainUrl }</th>
-                <th >{ client.default.careersUrl }</th>
-                <th >{ client.default.LinkedLinkUrl }</th>
-                <th >{ client.default.boardToken }</th>
+                <td >{ client.default.companyName }</td>
+                <td >{ client.default.domainUrl }</td>
+                <td >{ client.default.careersUrl }</td>
+                <td >{ client.default.LinkedLinkUrl }</td>
+                <td >{ client.default.boardToken }</td>
             </tr>
         );
     })

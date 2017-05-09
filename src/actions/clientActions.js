@@ -46,3 +46,29 @@ export function fetchClientsFailure(error) {
     type: "FETCH_CLIENTS_FAILURE", loading: false
   };
 }
+
+export function fetchClients() {
+    return function (dispatch) {
+
+        dispatch({type: "FETCH_CLIENTS", loading: true})
+
+        return fetch('http://localhost:4000/api/greenhouseClient', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: 'Hubot',
+                login: 'hubot',
+            })
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            dispatch(fetchClientsSuccess(responseData))
+        })
+        .catch((error) => {
+            dispatch(fetchClientsFailure(error))
+        });
+    }
+}
+
