@@ -1,0 +1,35 @@
+.loader-image{
+    width: 100px;
+    height: 100px;
+}.cotainer{
+    background-color: white;
+    display: tabel-cell;
+    width: 100%;
+    vertical-align: top;
+}.invalid_search{
+    background-color: #fff;
+}.loader-icon{
+    margin-top: 100px;
+}.loader{
+    margin-top: 70px;
+}.loader-icon img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}@keyframes blink {
+    50% {
+        color: transparent
+        }
+    }
+.loader__dot {
+    animation: 1s blink infinite
+}
+.loader__dot:nth-child(2) {
+    animation-delay: 250ms
+}
+.loader__dot:nth-child(3) {
+    animation-delay: 500ms
+}.loader{
+    text-align: center;
+    font-size: 24px;
+}

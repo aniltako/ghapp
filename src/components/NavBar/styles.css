@@ -1,0 +1,40 @@
+.Navbar{
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	background-color: #f1f1f1;
+	border-bottom: 1px solid #e7e7e7;
+}
+
+.Navbar-header-logo {
+	display: table-cell;
+	vertical-align: top;
+	width: 220px;
+	height: 58px;
+}
+
+.Navbar-header-logo a{
+	display: block;
+	margin-left: auto;
+	width: 100%;
+	height: 100%;
+	padding-top: 10px;
+}
+
+a{
+	color: #1c2841;
+	background-color: transparent;
+}
+
+.Nav-logo{
+	margin: auto;
+	display: block;
+	height: 40px;
+	margin-left: 47px;
+
+}
+
+img{
+	/*vertical-align: middle;*/
+	border: 0;
+}
