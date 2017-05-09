@@ -5,8 +5,8 @@ import {browserHistory} from 'react-router';
 class ClientDetailList extends Component{
 
     handleClick = () => {
-        browserHistory.push('/add-client');
-    };
+        browserHistory.push('/addClient');
+    }
 
     handleKeyUp = () => {
         var input, filter, table, tr, td, i;
@@ -39,6 +39,7 @@ class ClientDetailList extends Component{
             clientDetailList = createClientDetailList(clientList);
         }
 
+
         return (
 
             <div className="container">
@@ -49,7 +50,8 @@ class ClientDetailList extends Component{
 
                 <input type="text" id="searchInput" onKeyUp={this.handleKeyUp} placeholder="Search by company name..." title="Type in a name" />
 
-                    <table id="myTable">
+                <table id="myTable">
+                    <tbody>
                         <tr className="header">
                             <th >Company Name</th>
                             <th >Domain Url </th>
@@ -60,9 +62,11 @@ class ClientDetailList extends Component{
 
                         {clientDetailList}
 
-                    </table>
+                    </tbody>
+                </table>
             </div>
         );
+
     }
 }
 
@@ -71,18 +75,17 @@ export default ClientDetailList;
 
 function createClientDetailList(clientList){
 
-
     var clientDetailList = [];
 
     clientList.map(function(client,i){
 
         clientDetailList.push(
 
-            <tr key ={i} className="header">
+            <tr key={i} >
                 <td >{ client.default.companyName }</td>
                 <td >{ client.default.domainUrl }</td>
                 <td >{ client.default.careersUrl }</td>
-                <td >{ client.default.LinkedLinkUrl }</td>
+                <td >{ client.default.linkedInUrl }</td>
                 <td >{ client.default.boardToken }</td>
             </tr>
         );

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { fetchClients } from "../actions/clientActions";
+import { saveClient } from "../actions/clientActions";
 
 import ClientForm from "../scenes/ClientForm/index";
 
@@ -16,8 +16,8 @@ const mapDispatchToProps = (dispatch, props) => {
 
 	return {
 
-        fetchClients: () => {
-			dispatch(fetchClients());
+        saveClient: (client) => {
+			dispatch(saveClient(client));
 		}
 
 	};

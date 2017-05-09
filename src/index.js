@@ -11,8 +11,8 @@ ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
 			<Route path="/" >
-				<Route path="search" component={ClientDetail} />
-				<Route path="add-client" component={ClientForm} />
+				<Route path="clientList" component={ClientDetail} />
+				<Route path="addClient" component={ClientForm} />
 
 				<IndexRoute component={ClientDetail} />
 			</Route>

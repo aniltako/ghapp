@@ -6,10 +6,6 @@ import "./styles.css";
 
 class ClientDetail extends Component {
 
-    componentDidMount(){
-        console.log("ComponentDidMount");
-    }
-
     render() {
 
         return (

@@ -6,10 +6,6 @@ import "./styles.css";
 
 class ClientForm extends Component {
 
-    componentDidMount(){
-        console.log("ComponentDidMount");
-    }
-
     render() {
 
         return (
@@ -18,7 +14,9 @@ class ClientForm extends Component {
 
                 <div className="container" >
 
-                    <Form />
+                    <Form
+                        onClickSubmit={ (client) => this.props.saveClient(client) }
+                    />
 
                 </div>
 
