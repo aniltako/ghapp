@@ -1,8 +1,15 @@
 import { INITIAL_STATE } from '../model';
 
+const FETCH_CLIENTS = "FETCH_CLIENTS";
+const FETCH_CLIENTS_SUCCESS = "FETCH_CLIENTS_SUCCESS";
+const FETCH_CLIENTS_FAILURE = "FETCH_CLIENTS_FAILURE";
+const REMOVE_CLIENT = "REMOVE_CLIENT";
+const REMOVE_CLIENT_SUCCESS = "REMOVE_CLIENT_SUCCESS";
+const REMOVE_CLIENT_FAILURE = "REMOVE_CLIENT_FAILURE";
+
 const clientReducer = (state = INITIAL_STATE, action) => {
   switch(action.type){
-      case "FETCH_CLIENTS":
+      case FETCH_CLIENTS:
           state = {
               ...state,
               client: {
@@ -13,7 +20,7 @@ const clientReducer = (state = INITIAL_STATE, action) => {
 
       break;
 
-        case "FETCH_CLIENTS_SUCCESS":
+        case FETCH_CLIENTS_SUCCESS:
             state = {
                 ...state,
                 client: {
@@ -24,7 +31,7 @@ const clientReducer = (state = INITIAL_STATE, action) => {
             };
           break;
 
-        case "FETCH_CLIENTS_FAILURE":
+        case FETCH_CLIENTS_FAILURE:
             state = {
                 ...state,
                 client: {
@@ -32,6 +39,38 @@ const clientReducer = (state = INITIAL_STATE, action) => {
                     loading: action.loading
                 }
             };
+          break;
+
+      case REMOVE_CLIENT:
+          state = {
+              ...state,
+              client: {
+                  ...state.client,
+                  loading: action.loading
+              }
+          };
+
+          break;
+
+      case REMOVE_CLIENT_SUCCESS:
+          state = {
+              ...state,
+              client: {
+                  ...state.client,
+                  data: action.data,
+                  loading: action.loading
+              }
+          };
+          break;
+
+      case REMOVE_CLIENT_FAILURE:
+          state = {
+              ...state,
+              client: {
+                  ...state.client,
+                  loading: action.loading
+              }
+          };
           break;
       }
       return state;

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { fetchClients } from "../actions/clientActions";
+import { fetchClients, removeClient } from "../actions/clientActions";
 
 import ClientDetail from "../scenes/ClientDetail/index";
 
@@ -19,7 +19,11 @@ const mapDispatchToProps = (dispatch, props) => {
 
         fetchClients: () => {
 			dispatch(fetchClients());
-		}
+		},
+
+        removeClient: (id) => {
+            dispatch(removeClient(id));
+        }
 
 	};
 };

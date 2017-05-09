@@ -2,11 +2,28 @@ import React, { Component } from "react";
 import "./styles.css";
 import {browserHistory} from 'react-router';
 
+class Button extends Component{
+
+    handleDeleteClick = (e) => {
+        console.log("Delete button clicked",this.props.value);
+        var clientId = this.props.value;
+    }
+
+    render() {
+
+        return(
+
+            <button type="button" onClick= { this.handleDeleteClick } className="delete-client"> Delete </button>
+
+        );
+    }
+}
+
 class ClientDetailList extends Component{
 
     handleClick = () => {
         browserHistory.push('/add-client');
-    };
+    }
 
     handleKeyUp = () => {
         var input, filter, table, tr, td, i;
@@ -51,6 +68,7 @@ class ClientDetailList extends Component{
 
                     <table id="myTable">
                         <tr className="header">
+                            <th >Id</th>
                             <th >Company Name</th>
                             <th >Domain Url </th>
                             <th >Careers Url </th>
@@ -68,9 +86,7 @@ class ClientDetailList extends Component{
 
 export default ClientDetailList;
 
-
 function createClientDetailList(clientList){
-
 
     var clientDetailList = [];
 
@@ -79,11 +95,15 @@ function createClientDetailList(clientList){
         clientDetailList.push(
 
             <tr key ={i} className="header">
-                <td >{ client.default.companyName }</td>
-                <td >{ client.default.domainUrl }</td>
-                <td >{ client.default.careersUrl }</td>
-                <td >{ client.default.LinkedLinkUrl }</td>
-                <td >{ client.default.boardToken }</td>
+                <td >{ client.greenhouse.id }</td>
+                <td >{ client.greenhouse.companyName }</td>
+                <td >{ client.greenhouse.domain }</td>
+                <td >{ client.greenhouse.careersPage }</td>
+                <td >{ client.greenhouse.linkedinkPage }</td>
+                <td >{ client.greenhouse.ghBoardToken }</td>
+                <Button
+                    value={client.greenhouse.id}
+                />
             </tr>
         );
     })
