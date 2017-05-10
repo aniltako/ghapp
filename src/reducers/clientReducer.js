@@ -3,9 +3,11 @@ import {INITIAL_STATE} from '../model';
 const FETCH_CLIENTS = "FETCH_CLIENTS";
 const FETCH_CLIENTS_SUCCESS = "FETCH_CLIENTS_SUCCESS";
 const FETCH_CLIENTS_FAILURE = "FETCH_CLIENTS_FAILURE";
+
 const SAVE_CLIENT = "SAVE_CLIENT";
 const SAVE_CLIENT_SUCCESS = "SAVE_CLIENT_SUCCESS";
 const SAVE_CLIENT_FAILURE = "SAVE_CLIENT_FAILURE";
+
 const REMOVE_CLIENT = "REMOVE_CLIENT";
 const REMOVE_CLIENT_SUCCESS = "REMOVE_CLIENT_SUCCESS";
 const REMOVE_CLIENT_FAILURE = "REMOVE_CLIENT_FAILURE";
@@ -107,6 +109,7 @@ const clientReducer = (state = INITIAL_STATE, action) => {
                 }
             };
             break;
+
     }
     return state;
 };

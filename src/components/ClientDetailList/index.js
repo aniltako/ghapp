@@ -12,6 +12,7 @@ class ClientDetailList extends Component{
         this.state = {
             showModal : false,
             showDeleteModal: false,
+            showErrorModel: false,
             clientId: '',
             client : {
                 companyName: '',
@@ -19,6 +20,26 @@ class ClientDetailList extends Component{
                 careersUrl: '',
                 boardToken: '',
                 linkedInUrl: ''
+            }
+        }
+    }
+
+    handleKeyUp = () => {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        console.log(tr,"TR LENGTH");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            console.log(td,"td");
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
             }
         }
     }
@@ -32,19 +53,24 @@ class ClientDetailList extends Component{
 
     }
 
-    closeFormModal = () => {
+
+    openFormModal = () => {
         this.setState({
-            showModal: false,
+            showModal: true,
+            client : {
+                companyName: '',
+                domainUrl: '',
+                careersUrl: '',
+                boardToken: '',
+                linkedInUrl: ''
+            }
         });
     }
 
-    openFormModal = () => {
-        this.setState({ showModal: true });
-    }
-
-    closeDeleteModal = () => {
+    closeFormModal = () => {
         this.setState({
-            showDeleteModal: false,
+            showModal: false,
+
         });
     }
 
@@ -55,11 +81,37 @@ class ClientDetailList extends Component{
         });
     }
 
+    closeDeleteModal = () => {
+        this.setState({
+            showDeleteModal: false,
+        });
+    }
+
+    openErrorModal = () => {
+        this.setState({
+            showErrorModal: true,
+        });
+    }
+
+    closeErrorModal = () => {
+        this.setState({
+            showErrorModal: false,
+        });
+    }
+
     handleSaveClient = () => {
 
-        this.props.onSaveClick(this.state.client);
-        this.setState({ showModal: false});
-        browserHistory.push('/clientList');
+        var companyName = this.state.client.companyName;
+
+        if( companyName !== ''){
+
+            this.props.onSaveClick(this.state.client);
+            this.setState({ showModal: false});
+            browserHistory.push('/clientList');
+        }else{
+
+            this.openErrorModal();
+        }
     }
 
     handleUpdateClient = (client) => {
@@ -75,9 +127,7 @@ class ClientDetailList extends Component{
         this.setState({
             client : updateClient
         });
-
         this.openFormModal();
-
     }
 
     handleChangeCompanyName = (e) => {
@@ -133,27 +183,6 @@ class ClientDetailList extends Component{
         });
     }
 
-
-    handleKeyUp = () => {
-        var input, filter, table, tr, td, i;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
-        tr = table.getElementsByTagName("tr");
-        console.log(tr,"TR LENGTH");
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            console.log(td,"td");
-            if (td) {
-                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-
     render() {
 
         var clientList = this.props.clients.data;
@@ -172,8 +201,12 @@ class ClientDetailList extends Component{
                         <td >{ client.greenhouse.careersUrl }</td>
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
-                        <td><button value={client.greenhouse.id} onClick={this.openDeleteModal}>Delete</button></td>
-                        <td><button onClick={this.handleUpdateClient.bind(this, client.greenhouse)}>Edit</button></td>
+                        <td >{ this.state.totalJobs }</td>
+
+                        <td>
+                            <button className="delete-client-btn" value={client.greenhouse.id} onClick={this.openDeleteModal}>Delete</button>
+                            <button className="edit-client-btn" onClick={this.handleUpdateClient.bind(this, client.greenhouse)}>Edit</button>
+                        </td>
 
                     </tr>
                 );
@@ -200,6 +233,7 @@ class ClientDetailList extends Component{
                                 <th >Careers Url </th>
                                 <th >LinkedIn Url </th>
                                 <th >Board Token </th>
+
                             </tr>
 
                             {clientDetailList}
@@ -235,7 +269,7 @@ class ClientDetailList extends Component{
                                 <div className="form-group row">
                                     <label htmlFor="company-name-" className="col-sm-2 col-form-label">Company Name</label>
                                     <div className="col-sm-10 company-name-field">
-                                        <input className="form-control" onChange={ this.handleChangeCompanyName } value={this.state.client.companyName} type="text" id="companyName" />
+                                        <input className="form-control" required="required" onChange={ this.handleChangeCompanyName } value={this.state.client.companyName} type="text" id="companyName" />
                                     </div>
                                 </div>
 
@@ -273,7 +307,7 @@ class ClientDetailList extends Component{
                         <Modal.Footer>
                             <Button onClick={this.closeFormModal}>Cancel</Button>
                             <Button onClick={this.handleSaveClient} bsStyle="primary">Save</Button>
-                        </Modal.Footer>
+                            </Modal.Footer>
 
                     </Modal>
 
@@ -292,10 +326,21 @@ class ClientDetailList extends Component{
                             <Button onClick={this.handleDeleteConfirmClick} bsStyle="primary">Delete Item</Button>
                         </Modal.Footer>
                     </Modal>
+
+                    <Modal bsSize="small" show={this.state.showErrorModal} onHide={this.closeErrorModal}>
+                        <Modal.Header closeButton>
+                            <div className="Error-popup-container">
+
+                                <div className="Error-popup-content">
+                                    <strong>Please enter the mandatory field (Company Name)</strong>
+                                </div>
+                            </div>
+                        </Modal.Header>
+                        <Modal.Footer>
+                            <Button onClick={this.closeErrorModal} bsStyle="primary">Ok</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
-
-
-
 
                 {resultDisplay}
             </div>

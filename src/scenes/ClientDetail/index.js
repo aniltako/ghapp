@@ -18,6 +18,7 @@ class ClientDetail extends Component {
                         clients={this.props.data}
                         onSaveClick={ (client) => this.props.saveClient(client) }
                         onDeleteClick={ (id) => this.props.removeClient(id) }
+                        onRefreshClick={ (token) => this.props.fetchTotalJobs(token)}
                     />
 
 
