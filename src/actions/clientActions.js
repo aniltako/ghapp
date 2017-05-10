@@ -16,7 +16,7 @@ export function fetchClients() {
 
         dispatch({type: FETCH_CLIENTS, loading: true})
 
-        return fetch("http://localhost:4000/api/greenhouseClient", {
+        return fetch("http://localhost:8090/api/greenhouseClient", {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -63,7 +63,7 @@ export function saveClient(client) {
 
         dispatch({type: SAVE_CLIENT, loading: true})
 
-        return fetch('http://localhost:4000/api/greenhouseClient', {
+        return fetch('http://localhost:8090/api/greenhouseClient', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ export function removeClient(id) {
 
         dispatch({type: REMOVE_CLIENT, loading: true})
 
-        return fetch("http://localhost:3000/api/greenhouseClient/" + id, {
+        return fetch("http://localhost:8090/api/greenhouseClient/" + id, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
