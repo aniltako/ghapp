@@ -15,7 +15,10 @@ class ClientDetail extends Component {
                 <div className="container" >
 
                     <ClientDetailList
-                        clients={this.props.data}/>
+                        clients={this.props.data}
+                        onDeleteClick={ (id) => this.props.removeClient(id) }
+                    />
+
 
                 </div>
 

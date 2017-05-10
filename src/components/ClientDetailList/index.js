@@ -8,6 +8,10 @@ class ClientDetailList extends Component{
         browserHistory.push('/addClient');
     }
 
+    handleDelete = () => {
+        alert("ok");
+    }
+
     handleKeyUp = () => {
         var input, filter, table, tr, td, i;
         input = document.getElementById("searchInput");
@@ -36,60 +40,70 @@ class ClientDetailList extends Component{
 
         if(typeof clientList !== 'undefined' && clientList.length >0){
 
-            clientDetailList = createClientDetailList(clientList);
+
+            clientList.map(function(client,i){
+
+                clientDetailList.push(
+
+                    <tr key={i} className="header">
+                        <td >{ client.greenhouse.companyName }</td>
+                        <td >{ client.greenhouse.domain }</td>
+                        <td >{ client.greenhouse.careersUrl }</td>
+                        <td >{ client.greenhouse.linkedInUrl }</td>
+                        <td >{ client.greenhouse.boardToken }</td>
+                        <td><button onClick={this.handleDelete}>Delete</button></td>
+                    </tr>
+                );
+            }, this);
+        }
+
+
+        var resultDisplay = null;
+
+        if ( clientDetailList.length > 0) {
+
+            resultDisplay = <div className="container">
+
+                        <div className="add-client-button">
+                            <button type="button" onClick={ this.handleClick } className="btn btn-primary add-client">Add Greenhouse Client</button>
+                        </div>
+
+                        <input type="text" id="searchInput" onKeyUp={this.handleKeyUp} placeholder="Search by company name..." title="Type in a name" />
+
+                        <table id="myTable">
+                            <tbody>
+                            <tr className="header">
+                                <th >Company Name</th>
+                                <th >Domain Url </th>
+                                <th >Careers Url </th>
+                                <th > LinkedIn Url </th>
+                                <th > Board Token </th>
+                            </tr>
+
+                            {clientDetailList}
+
+                            </tbody>
+                        </table>
+                    </div>
+        }else{
+
+            resultDisplay = <div className="container">
+
+                                <div className="add-client-button">
+                                    <button type="button" onClick={ this.handleClick } className="btn btn-primary add-client">Add Greenhouse Client</button>
+                                </div>
+
+                            </div>
         }
 
 
         return (
 
-            <div className="container">
+            {resultDisplay}
 
-                <div className="add-client-button">
-                    <button type="button" onClick={ this.handleClick } className="btn btn-primary add-client">Add Greenhouse Client</button>
-                </div>
-
-                <input type="text" id="searchInput" onKeyUp={this.handleKeyUp} placeholder="Search by company name..." title="Type in a name" />
-
-                <table id="myTable">
-                    <tbody>
-                        <tr className="header">
-                            <th >Company Name</th>
-                            <th >Domain Url </th>
-                            <th >Careers Url </th>
-                            <th > LinkedIn Url </th>
-                            <th > Board Token </th>
-                        </tr>
-
-                        {clientDetailList}
-
-                    </tbody>
-                </table>
-            </div>
         );
 
     }
 }
 
 export default ClientDetailList;
-
-
-function createClientDetailList(clientList){
-
-    var clientDetailList = [];
-
-    clientList.map(function(client,i){
-
-        clientDetailList.push(
-
-            <tr key={i} >
-                <td >{ client.default.companyName }</td>
-                <td >{ client.default.domainUrl }</td>
-                <td >{ client.default.careersUrl }</td>
-                <td >{ client.default.linkedInUrl }</td>
-                <td >{ client.default.boardToken }</td>
-            </tr>
-        );
-    })
-
-    return clientDetailList;
-}

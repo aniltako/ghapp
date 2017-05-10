@@ -13,7 +13,6 @@ ReactDOM.render(
 			<Route path="/" >
 				<Route path="clientList" component={ClientDetail} />
 				<Route path="addClient" component={ClientForm} />
-
 				<IndexRoute component={ClientDetail} />
 			</Route>
 		</Router>
