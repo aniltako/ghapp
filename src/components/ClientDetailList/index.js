@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./styles.css";
+import {browserHistory} from 'react-router';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 
@@ -10,6 +11,8 @@ class ClientDetailList extends Component{
 
         this.state = {
             showModal : false,
+            showDeleteModal: false,
+            clientId: '',
             client : {
                 companyName: '',
                 domainUrl: '',
@@ -20,21 +23,43 @@ class ClientDetailList extends Component{
         }
     }
 
-    handleDeleteClient = () => {
-        alert("ok");
+    handleDeleteConfirmClick = () => {
+        this.props.onDeleteClick(this.state.clientId);
+        this.setState ({
+            showDeleteModal: false
+        })
+        browserHistory.push('/clientList')
+
     }
 
     closeFormModal = () => {
-        this.setState({ showModal: false });
+        this.setState({
+            showModal: false,
+        });
     }
 
     openFormModal = () => {
         this.setState({ showModal: true });
     }
 
+    closeDeleteModal = () => {
+        this.setState({
+            showDeleteModal: false,
+        });
+    }
+
+    openDeleteModal = (e) => {
+        this.setState({
+            showDeleteModal: true,
+            clientId: e.target.value
+        });
+    }
+
     handleSaveClient = () => {
 
         this.props.onSaveClick(this.state.client);
+        this.setState({ showModal: false});
+        browserHistory.push('/clientList');
     }
 
     handleUpdateClient = (client) => {
@@ -137,7 +162,6 @@ class ClientDetailList extends Component{
 
         if(typeof clientList !== 'undefined' && clientList.length >0){
 
-
             clientList.map(function(client,i){
 
                 clientDetailList.push(
@@ -148,13 +172,13 @@ class ClientDetailList extends Component{
                         <td >{ client.greenhouse.careersUrl }</td>
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
-                        <td><button onClick={this.handleDeleteClient}>Delete</button></td>
+                        <td><button value={client.greenhouse.id} onClick={this.openDeleteModal}>Delete</button></td>
                         <td><button onClick={this.handleUpdateClient.bind(this, client.greenhouse)}>Edit</button></td>
+
                     </tr>
                 );
             }, this);
         }
-
 
         var resultDisplay = null;
 
@@ -193,7 +217,6 @@ class ClientDetailList extends Component{
 
                             </div>
         }
-
 
         return (
 
@@ -253,12 +276,30 @@ class ClientDetailList extends Component{
                         </Modal.Footer>
 
                     </Modal>
+
+
+                    <Modal bsSize="small" show={this.state.showDeleteModal} onHide={this.closeDeleteModal}>
+                        <Modal.Header closeButton>
+                            <div className="Delete-popup-container">
+
+                                <div className="Delete-popup-content">
+                                    <strong>Are you sure you want to delete this item?</strong>
+                                    This can not be undone.
+                                </div>
+                            </div>
+                        </Modal.Header>
+                        <Modal.Footer>
+                            <Button onClick={this.handleDeleteConfirmClick} bsStyle="primary">Delete Item</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
+
+
+
 
                 {resultDisplay}
             </div>
         );
-
     }
 }
 
