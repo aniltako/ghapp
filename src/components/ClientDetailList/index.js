@@ -8,8 +8,10 @@ class ClientDetailList extends Component{
         browserHistory.push('/addClient');
     }
 
-    handleDelete = () => {
-        alert("ok");
+    handleDelete = (e) => {
+        var clientId = e.target.value;
+        this.props.onDeleteClick(clientId);
+        browserHistory.push('/clientList');
     }
 
     handleKeyUp = () => {
@@ -40,7 +42,6 @@ class ClientDetailList extends Component{
 
         if(typeof clientList !== 'undefined' && clientList.length >0){
 
-
             clientList.map(function(client,i){
 
                 clientDetailList.push(
@@ -51,12 +52,11 @@ class ClientDetailList extends Component{
                         <td >{ client.greenhouse.careersUrl }</td>
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
-                        <td><button onClick={this.handleDelete}>Delete</button></td>
+                        <td><button value={client.greenhouse.id} onClick={this.handleDelete}>Delete</button></td>
                     </tr>
                 );
             }, this);
         }
-
 
         var resultDisplay = null;
 
@@ -96,13 +96,9 @@ class ClientDetailList extends Component{
                             </div>
         }
 
-
         return (
-
-            {resultDisplay}
-
+            resultDisplay
         );
-
     }
 }
 
