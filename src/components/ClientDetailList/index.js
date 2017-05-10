@@ -1,18 +1,144 @@
 import React, { Component } from "react";
 import "./styles.css";
 import {browserHistory} from 'react-router';
+import Modal from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
 
 class ClientDetailList extends Component{
 
-    handleClick = () => {
-        browserHistory.push('/addClient');
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showModal : false,
+            showDeleteModal: false,
+            clientId: '',
+            client : {
+                companyName: '',
+                domainUrl: '',
+                careersUrl: '',
+                boardToken: '',
+                linkedInUrl: ''
+            }
+        }
     }
 
-    handleDelete = (e) => {
-        var clientId = e.target.value;
-        this.props.onDeleteClick(clientId);
+    handleDeleteConfirmClick = () => {
+        // var clientId = e.target.value;
+        this.props.onDeleteClick(this.state.clientId);
+        this.setState ({
+            showDeleteModal: false
+        })
+        browserHistory.push('/clientList')
+
+    }
+
+    closeFormModal = () => {
+        this.setState({
+            showModal: false,
+        });
+    }
+
+    openFormModal = () => {
+        this.setState({ showModal: true });
+    }
+
+    closeDeleteModal = () => {
+        this.setState({
+            showDeleteModal: false,
+        });
+    }
+
+    openDeleteModal = (e) => {
+        this.setState({
+            showDeleteModal: true,
+            clientId: e.target.value
+        });
+    }
+
+    handleSaveClient = () => {
+
+        this.props.onSaveClick(this.state.client);
+        this.setState({ showModal: false});
         browserHistory.push('/clientList');
     }
+
+    handleUpdateClient = (e) => {
+
+        // var client = e.target.value;
+
+        console.log("CLIENT :: ", e.target.value.companyName);
+
+        // var updateClient = this.state.client;
+        //
+        // updateClient.companyName = client.greenhouse.companyName;
+        // updateClient.domainUrl = client.greenhouse.domainUrl;
+        // updateClient.careersUrl = client.greenhouse.careersUrl;
+        // updateClient.boardToken = client.greenhouse.boardToken;
+        // updateClient.linkedInUrl = client.greenhouse.linkedInUrl;
+        //
+        // this.setState({
+        //     client : updateClient
+        // }, function () {
+        //     this.openFormModel;
+        // });
+
+        // this.props.onSaveClick(this.state.client);
+    }
+
+    handleChangeCompanyName = (e) => {
+
+        var client = this.state.client;
+
+        client.companyName = e.target.value;
+        this.setState({
+            client : client
+        });
+    }
+
+    handleChangeDomainUrl = (e) => {
+
+        var client = this.state.client;
+
+        client.domainUrl = e.target.value;
+        this.setState({
+            client : client
+        });
+    }
+
+    handleChangeCareersUrl = (e) => {
+
+        var client = this.state.client;
+
+        client.careersUrl = e.target.value;
+        this.setState({
+            client : client
+
+        });
+    }
+
+    handleChangeBoardToken = (e) => {
+
+        var client = this.state.client;
+
+        client.boardToken = e.target.value;
+        this.setState({
+            client : client
+
+        });
+    }
+
+    handleChangeLinkedInUrl = (e) => {
+
+        var client = this.state.client;
+
+        client.linkedInUrl = e.target.value;
+        this.setState({
+            client : client
+
+        });
+    }
+
 
     handleKeyUp = () => {
         var input, filter, table, tr, td, i;
@@ -48,11 +174,12 @@ class ClientDetailList extends Component{
 
                     <tr key={i} className="header">
                         <td >{ client.greenhouse.companyName }</td>
-                        <td >{ client.greenhouse.domain }</td>
+                        <td >{ client.greenhouse.domainUrl }</td>
                         <td >{ client.greenhouse.careersUrl }</td>
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
-                        <td><button value={client.greenhouse.id} onClick={this.handleDelete}>Delete</button></td>
+                        <td><button value={client.greenhouse.id} onClick={this.openDeleteModal}>Delete</button></td>
+                        <td><button value={client.greenhouse} onClick={this.handleUpdateClient}>Edit</button></td>
                     </tr>
                 );
             }, this);
@@ -65,7 +192,7 @@ class ClientDetailList extends Component{
             resultDisplay = <div className="container">
 
                         <div className="add-client-button">
-                            <button type="button" onClick={ this.handleClick } className="btn btn-primary add-client">Add Greenhouse Client</button>
+                            <button type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
                         </div>
 
                         <input type="text" id="searchInput" onKeyUp={this.handleKeyUp} placeholder="Search by company name..." title="Type in a name" />
@@ -76,8 +203,8 @@ class ClientDetailList extends Component{
                                 <th >Company Name</th>
                                 <th >Domain Url </th>
                                 <th >Careers Url </th>
-                                <th > LinkedIn Url </th>
-                                <th > Board Token </th>
+                                <th >LinkedIn Url </th>
+                                <th >Board Token </th>
                             </tr>
 
                             {clientDetailList}
@@ -90,14 +217,93 @@ class ClientDetailList extends Component{
             resultDisplay = <div className="container">
 
                                 <div className="add-client-button">
-                                    <button type="button" onClick={ this.handleClick } className="btn btn-primary add-client">Add Greenhouse Client</button>
+                                    <button type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
                                 </div>
 
                             </div>
         }
 
         return (
-            resultDisplay
+
+            <div className="container">
+
+                <div className="static-modal">
+
+                    <Modal show={this.state.showModal} onHide={this.closeFormModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Create new Client</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <div className="form-wrapper">
+
+                                <div className="form-group row">
+                                    <label htmlFor="company-name-" className="col-sm-2 col-form-label">Company Name</label>
+                                    <div className="col-sm-10 company-name-field">
+                                        <input className="form-control" onChange={ this.handleChangeCompanyName } value={this.state.client.companyName} type="text" id="companyName" />
+                                    </div>
+                                </div>
+
+                                <div className="form-group row">
+                                    <label htmlFor="domain-name" className="col-sm-2 col-form-label">Domain Url</label>
+                                    <div className="col-sm-10 domain-name-field">
+                                        <input className="form-control" onChange={ this.handleChangeDomainUrl } value={this.state.client.domainUrl} type="text" id="domain" />
+                                    </div>
+                                </div>
+
+                                <div className="form-group row">
+                                    <label htmlFor="careers-page" className="col-sm-2 col-form-label">Careers Page</label>
+                                    <div className="col-sm-10 careers-page-field">
+                                        <input className="form-control" onChange={ this.handleChangeCareersUrl } value={this.state.client.careersUrl} type="text" id="careersPage" />
+                                    </div>
+                                </div>
+
+                                <div className="form-group row">
+                                    <label htmlFor="linkedin-page" className="col-sm-2 col-form-label">Linkedin Page</label>
+                                    <div className="col-sm-10 linkedin-page-name-field">
+                                        <input className="form-control" onChange={ this.handleChangeLinkedInUrl } value={this.state.client.linkedInUrl} type="text" id="linkedInPage" />
+                                    </div>
+                                </div>
+
+                                <div className="form-group row">
+                                    <label htmlFor="gh-board-token" className="col-sm-2 col-form-label">GH Board Token</label>
+                                    <div className="col-sm-10 fh-board-token-field">
+                                        <input className="form-control" onChange={ this.handleChangeBoardToken } value={this.state.client.boardToken} type="text" id="fhBoardToken" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                            <Button onClick={this.closeFormModal}>Cancel</Button>
+                            <Button onClick={this.handleSaveClient} bsStyle="primary">Save</Button>
+                        </Modal.Footer>
+
+                    </Modal>
+
+
+                    <Modal bsSize="small" show={this.state.showDeleteModal} onHide={this.closeDeleteModal}>
+                        <Modal.Header closeButton>
+                            <div className="Delete-popup-container">
+
+                                <div className="Delete-popup-content">
+                                    <strong>Are you sure you want to delete this item?</strong>
+                                    This can not be undone.
+                                </div>
+                            </div>
+                        </Modal.Header>
+                        <Modal.Footer>
+                            <Button onClick={this.handleDeleteConfirmClick} bsStyle="primary">Delete Item</Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+
+
+
+
+                {resultDisplay}
+            </div>
         );
     }
 }
