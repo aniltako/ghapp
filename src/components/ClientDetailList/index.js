@@ -37,27 +37,22 @@ class ClientDetailList extends Component{
         this.props.onSaveClick(this.state.client);
     }
 
-    handleUpdateClient = (e) => {
+    handleUpdateClient = (client) => {
 
-        // var client = e.target.value;
+        var updateClient = this.state.client;
 
-        console.log("CLIENT :: ", e.target.value.companyName);
+        updateClient.companyName = client.companyName;
+        updateClient.domainUrl = client.domainUrl;
+        updateClient.careersUrl = client.careersUrl;
+        updateClient.boardToken = client.boardToken;
+        updateClient.linkedInUrl = client.linkedInUrl;
 
-        // var updateClient = this.state.client;
-        //
-        // updateClient.companyName = client.greenhouse.companyName;
-        // updateClient.domainUrl = client.greenhouse.domainUrl;
-        // updateClient.careersUrl = client.greenhouse.careersUrl;
-        // updateClient.boardToken = client.greenhouse.boardToken;
-        // updateClient.linkedInUrl = client.greenhouse.linkedInUrl;
-        //
-        // this.setState({
-        //     client : updateClient
-        // }, function () {
-        //     this.openFormModel;
-        // });
+        this.setState({
+            client : updateClient
+        });
 
-        // this.props.onSaveClick(this.state.client);
+        this.openFormModal();
+
     }
 
     handleChangeCompanyName = (e) => {
@@ -154,7 +149,7 @@ class ClientDetailList extends Component{
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
                         <td><button onClick={this.handleDeleteClient}>Delete</button></td>
-                        <td><button value={client.greenhouse} onClick={this.handleUpdateClient}>Edit</button></td>
+                        <td><button onClick={this.handleUpdateClient.bind(this, client.greenhouse)}>Edit</button></td>
                     </tr>
                 );
             }, this);
