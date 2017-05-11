@@ -30,7 +30,7 @@ class ClientDetailList extends Component{
         var input, filter, table, tr, td, i;
         input = document.getElementById("searchInput");
         filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
+        table = document.getElementById("client-table");
         tr = table.getElementsByTagName("tr");
         console.log(tr,"TR LENGTH");
         for (i = 0; i < tr.length; i++) {
@@ -231,7 +231,7 @@ class ClientDetailList extends Component{
                         <td >{ client.greenhouse.careersUrl }</td>
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
-                        <td>
+                        <td >
                             <button className="delete-client-btn" value={client.greenhouse.id} onClick={this.openDeleteModal}>Delete</button>
                             <button value="updateClient" className="edit-client-btn" onClick={this.openUpdateClientModal.bind(this, client.greenhouse)}>Edit</button>
                         </td>
@@ -244,7 +244,7 @@ class ClientDetailList extends Component{
 
         if ( clientDetailList.length > 0) {
 
-            resultDisplay = <div className="container">
+            resultDisplay = <div className="client-container">
 
                         <div className="add-client-button">
                             <button value="addClient" type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
@@ -252,7 +252,7 @@ class ClientDetailList extends Component{
 
                         <input type="text" id="searchInput" onKeyUp={this.handleKeyUp} placeholder="Search by company name..." title="Type in a name" />
 
-                        <table id="myTable">
+                        <table id="client-table">
                             <tbody>
                             <tr className="header">
                                 <th >Company Name</th>
@@ -269,7 +269,7 @@ class ClientDetailList extends Component{
                     </div>
         }else{
 
-            resultDisplay = <div className="container">
+            resultDisplay = <div className="client-container">
                                 <div className="add-client-button">
                                     <button type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
                                 </div>
@@ -280,7 +280,6 @@ class ClientDetailList extends Component{
 
             <div className="container">
 
-                <div className="static-modal">
 
                     <Modal show={this.state.showModal} onHide={this.closeFormModal}>
                         <Modal.Header closeButton>
@@ -365,7 +364,6 @@ class ClientDetailList extends Component{
                             <Button onClick={this.closeErrorModal} bsStyle="primary">Ok</Button>
                         </Modal.Footer>
                     </Modal>
-                </div>
 
                 {resultDisplay}
 
