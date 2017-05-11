@@ -11,19 +11,15 @@ class ClientDetail extends Component {
         return (
             <div>
                 <NavBar />
-
                 <div className="container" >
-
                     <ClientDetailList
                         clients={this.props.data}
                         onSaveClick={ (client) => this.props.saveClient(client) }
                         onDeleteClick={ (id) => this.props.removeClient(id) }
-                        onRefreshClick={ (token) => this.props.fetchTotalJobs(token)}
+                        totalJobsdata= {this.props.totalJobsData}
+                        onUpdateClick={ (client) => this.props.updateClient(client) }
                     />
-
-
                 </div>
-
             </div>
         );
     }

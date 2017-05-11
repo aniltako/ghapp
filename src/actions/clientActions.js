@@ -14,10 +14,6 @@ const UPDATE_CLIENT = "UPDATE_CLIENT";
 const UPDATE_CLIENT_SUCCESS = "UPDATE_CLIENT_SUCCESS";
 const UPDATE_CLIENT_FAILURE = "UPDATE_CLIENT_FAILURE";
 
-const FETCH_TOTAL_JOBS = "FETCH_TOTAL_JOBS";
-const FETCH_TOTAL_JOBS_SUCCESS = "FETCH_TOTAL_JOBS_SUCCESS";
-const FETCH_TOTAL_JOBS_FAILURE = "FETCH_TOTAL_JOBS_FAILURE";
-
 export function fetchClients() {
 
     return function (dispatch) {
@@ -39,7 +35,6 @@ export function fetchClients() {
                 dispatch(fetchClientsFailure(error))
             });
     }
-
 }
 
 export function fetchClientsSuccess(clients) {
@@ -50,12 +45,9 @@ export function fetchClientsSuccess(clients) {
 
             dispatch({type: FETCH_CLIENTS_SUCCESS, data: clients, loading: false})
         } else {
-
             dispatch({type: FETCH_CLIENTS_SUCCESS, data: clients, loading: false})
         }
-
     }
-
 }
 
 export function fetchClientsFailure(error) {
@@ -63,7 +55,6 @@ export function fetchClientsFailure(error) {
         type: FETCH_CLIENTS_FAILURE, loading: false
     };
 }
-
 
 export function saveClient(client) {
 
@@ -99,13 +90,10 @@ export function saveClientSuccess(responseData) {
     return function (dispatch) {
 
         if (responseData.cas !== null) {
-
             dispatch({type: SAVE_CLIENT_SUCCESS, loading: false})
         } else {
-
             dispatch(saveClientFailure)
         }
-
     }
 }
 
@@ -117,6 +105,7 @@ export function saveClientFailure(error) {
 
 
 export function removeClient(id) {
+
     return function (dispatch) {
 
         dispatch({type: REMOVE_CLIENT, loading: true})
@@ -143,7 +132,6 @@ export function removeClientSuccess(responseData) {
     return function (dispatch) {
 
         if (responseData.cas !== null) {
-
             dispatch({type: REMOVE_CLIENT_SUCCESS, loading: false})
         } else {
             dispatch(removeClientFailure)
@@ -157,14 +145,13 @@ export function removeClientFailure(error) {
     };
 }
 
-/*
 export function updateClient(client) {
 
     return function (dispatch) {
 
         dispatch({type: UPDATE_CLIENT, loading: true})
 
-        return fetch('localhost:8090/api/greenhouseClient/'+client.id, {
+        return fetch('http://localhost:8090/api/greenhouseClient/'+client.id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -192,13 +179,10 @@ export function updateClientSuccess(responseData) {
     return function (dispatch) {
 
         if (responseData.cas !== null) {
-
             dispatch({type: UPDATE_CLIENT_SUCCESS, loading: false})
         } else {
-
             dispatch(updateClientFailure)
         }
-
     }
 }
 
@@ -207,8 +191,6 @@ export function updateClientFailure(error) {
         type: UPDATE_CLIENT_FAILURE, loading: false
     };
 }
-
-*/
 
 
 

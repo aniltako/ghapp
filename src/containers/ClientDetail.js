@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { fetchClients, removeClient, saveClient, fetchTotalJobs } from "../actions/clientActions";
+import { fetchClients, removeClient, saveClient, fetchTotalJobs, updateClient } from "../actions/clientActions";
 
 import ClientDetail from "../scenes/ClientDetail/index";
 
@@ -29,6 +29,12 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(saveClient(client));
         },
 
+        fetchTotalJobs: (token) => {
+            dispatch(fetchTotalJobs(token));
+        },
+        updateClient: (client) => {
+            dispatch(updateClient(client));
+        }
 	};
 };
 

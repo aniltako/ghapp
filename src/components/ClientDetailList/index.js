@@ -3,6 +3,7 @@ import "./styles.css";
 import {browserHistory} from 'react-router';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import _ from 'lodash';
 
 class ClientDetailList extends Component{
 
@@ -14,6 +15,7 @@ class ClientDetailList extends Component{
             showDeleteModal: false,
             showErrorModel: false,
             clientId: '',
+            formType: '',
             client : {
                 companyName: '',
                 domainUrl: '',
@@ -44,27 +46,30 @@ class ClientDetailList extends Component{
         }
     }
 
-    handleDeleteConfirmClick = () => {
-        this.props.onDeleteClick(this.state.clientId);
-        this.setState ({
-            showDeleteModal: false
-        })
-        browserHistory.push('/clientList')
+    openFormModal = (e, id) => {
 
-    }
+        if(e.target.value == "addClient"){
 
+            this.setState({
 
-    openFormModal = () => {
-        this.setState({
-            showModal: true,
-            client : {
-                companyName: '',
-                domainUrl: '',
-                careersUrl: '',
-                boardToken: '',
-                linkedInUrl: ''
-            }
-        });
+                showModal: true,
+                formType: "Create New Client",
+                client : {
+                    companyName: '',
+                    domainUrl: '',
+                    careersUrl: '',
+                    boardToken: '',
+                    linkedInUrl: ''
+                }
+            });
+        }else{
+
+            this.setState({
+                clientId:id,
+                showModal: true,
+                formType: "Update Client"
+            });
+        }
     }
 
     closeFormModal = () => {
@@ -72,6 +77,18 @@ class ClientDetailList extends Component{
             showModal: false,
 
         });
+    }
+
+    handleSaveClient = () => {
+
+        var companyName = this.state.client.companyName;
+        if( companyName !== ''){
+            this.props.onSaveClick(this.state.client);
+            this.setState({ showModal: false});
+            browserHistory.push('/clientList');
+        }else{
+            this.openErrorModal();
+        }
     }
 
     openDeleteModal = (e) => {
@@ -87,6 +104,14 @@ class ClientDetailList extends Component{
         });
     }
 
+    handleDeleteConfirmClick = () => {
+        this.props.onDeleteClick(this.state.clientId);
+        this.setState ({
+            showDeleteModal: false
+        })
+        browserHistory.push('/')
+    }
+
     openErrorModal = () => {
         this.setState({
             showErrorModal: true,
@@ -97,37 +122,6 @@ class ClientDetailList extends Component{
         this.setState({
             showErrorModal: false,
         });
-    }
-
-    handleSaveClient = () => {
-
-        var companyName = this.state.client.companyName;
-
-        if( companyName !== ''){
-
-            this.props.onSaveClick(this.state.client);
-            this.setState({ showModal: false});
-            browserHistory.push('/clientList');
-        }else{
-
-            this.openErrorModal();
-        }
-    }
-
-    handleUpdateClient = (client) => {
-
-        var updateClient = this.state.client;
-
-        updateClient.companyName = client.companyName;
-        updateClient.domainUrl = client.domainUrl;
-        updateClient.careersUrl = client.careersUrl;
-        updateClient.boardToken = client.boardToken;
-        updateClient.linkedInUrl = client.linkedInUrl;
-
-        this.setState({
-            client : updateClient
-        });
-        this.openFormModal();
     }
 
     handleChangeCompanyName = (e) => {
@@ -183,7 +177,43 @@ class ClientDetailList extends Component{
         });
     }
 
+    openUpdateClientModal = (client, e) => {
+
+        var tmpClient = this.state.client;
+
+        tmpClient.companyName = client.companyName;
+        tmpClient.domainUrl = client.domainUrl;
+        tmpClient.careersUrl = client.careersUrl;
+        tmpClient.boardToken = client.boardToken;
+        tmpClient.linkedInUrl = client.linkedInUrl;
+
+        this.setState({
+            client : tmpClient
+        });
+        this.openFormModal(e, client.id);
+    }
+
+    handleUpdateClient = () => {
+
+        var updatedClient = {};
+
+        updatedClient.id = this.state.clientId;
+        _.merge(updatedClient, this.state.client);
+
+        this.props.onUpdateClick(updatedClient);
+        this.setState({ showModal: false});
+        browserHistory.push('/');
+    }
+
     render() {
+
+        var  button = null;
+
+        if(this.state.formType == "Create New Client"){
+            button = <Button onClick={this.handleSaveClient} bsStyle="primary">Save</Button>
+        }else{
+            button = <Button onClick={this.handleUpdateClient}  bsStyle="primary">Update</Button>
+        }
 
         var clientList = this.props.clients.data;
 
@@ -201,13 +231,10 @@ class ClientDetailList extends Component{
                         <td >{ client.greenhouse.careersUrl }</td>
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
-                        <td >{ this.state.totalJobs }</td>
-
                         <td>
                             <button className="delete-client-btn" value={client.greenhouse.id} onClick={this.openDeleteModal}>Delete</button>
-                            <button className="edit-client-btn" onClick={this.handleUpdateClient.bind(this, client.greenhouse)}>Edit</button>
+                            <button value="updateClient" className="edit-client-btn" onClick={this.openUpdateClientModal.bind(this, client.greenhouse)}>Edit</button>
                         </td>
-
                     </tr>
                 );
             }, this);
@@ -220,7 +247,7 @@ class ClientDetailList extends Component{
             resultDisplay = <div className="container">
 
                         <div className="add-client-button">
-                            <button type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
+                            <button value="addClient" type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
                         </div>
 
                         <input type="text" id="searchInput" onKeyUp={this.handleKeyUp} placeholder="Search by company name..." title="Type in a name" />
@@ -233,7 +260,6 @@ class ClientDetailList extends Component{
                                 <th >Careers Url </th>
                                 <th >LinkedIn Url </th>
                                 <th >Board Token </th>
-
                             </tr>
 
                             {clientDetailList}
@@ -244,11 +270,9 @@ class ClientDetailList extends Component{
         }else{
 
             resultDisplay = <div className="container">
-
                                 <div className="add-client-button">
                                     <button type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
                                 </div>
-
                             </div>
         }
 
@@ -260,7 +284,7 @@ class ClientDetailList extends Component{
 
                     <Modal show={this.state.showModal} onHide={this.closeFormModal}>
                         <Modal.Header closeButton>
-                            <Modal.Title>Create new Client</Modal.Title>
+                            <Modal.Title>{this.state.formType}</Modal.Title>
                         </Modal.Header>
 
                         <Modal.Body>
@@ -306,11 +330,12 @@ class ClientDetailList extends Component{
 
                         <Modal.Footer>
                             <Button onClick={this.closeFormModal}>Cancel</Button>
-                            <Button onClick={this.handleSaveClient} bsStyle="primary">Save</Button>
-                            </Modal.Footer>
+
+                            {button}
+
+                        </Modal.Footer>
 
                     </Modal>
-
 
                     <Modal bsSize="small" show={this.state.showDeleteModal} onHide={this.closeDeleteModal}>
                         <Modal.Header closeButton>
@@ -343,6 +368,7 @@ class ClientDetailList extends Component{
                 </div>
 
                 {resultDisplay}
+
             </div>
         );
     }
