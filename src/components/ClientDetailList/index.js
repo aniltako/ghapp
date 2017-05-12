@@ -45,10 +45,14 @@ class ClientDetailList extends Component{
         }
     }
 
-    openFormModal = (e, id) => {
+    openFormModal = (e) => {
+        if(e.target.value == "updateClient"){
 
-        if(e.target.value == "addClient"){
-
+            this.setState({
+                showModal: true,
+                formType: "Update Client"
+            });
+        }else{
             this.setState({
 
                 showModal: true,
@@ -61,13 +65,7 @@ class ClientDetailList extends Component{
                     linkedInUrl: ''
                 }
             });
-        }else{
 
-            this.setState({
-                clientId:id,
-                showModal: true,
-                formType: "Update Client"
-            });
         }
     }
 
@@ -188,9 +186,10 @@ class ClientDetailList extends Component{
         tmpClient.linkedInUrl = client.linkedInUrl;
 
         this.setState({
-            client : tmpClient
+            client : tmpClient,
+            clientId: client.id
         });
-        this.openFormModal(e, client.id);
+        this.openFormModal(e);
     }
 
     handleUpdateClient = () => {
@@ -281,7 +280,7 @@ class ClientDetailList extends Component{
 
             resultDisplay = <div className="client-container">
                                 <div className="add-client-button">
-                                    <button type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
+                                    <button value="addClient" type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
                                 </div>
                             </div>
         }
