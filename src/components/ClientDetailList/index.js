@@ -16,7 +16,6 @@ class ClientDetailList extends Component{
             showErrorModel: false,
             clientId: '',
             formType: '',
-            totalJobs: '',
             client : {
                 companyName: '',
                 domainUrl: '',
@@ -236,12 +235,10 @@ class ClientDetailList extends Component{
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
                         <td >{ client.greenhouse.totalJobs }</td>
-
-
                         <td >
-                            <button className="delete-client-btn" value={client.greenhouse.id} onClick={this.openDeleteModal}>Delete</button>
-                            <button value="updateClient" className="edit-client-btn" onClick={this.openUpdateClientModal.bind(this, client.greenhouse)}>Edit</button>
-                            <button className="refresh-client-btn" onClick={this.handleRefresh.bind(this, client.greenhouse.id)}>Refresh</button>
+                            <button className="glyphicon glyphicon-trash delete-client-btn" value={client.greenhouse.id} onClick={this.openDeleteModal}></button>
+                            <button value="updateClient" className="glyphicon glyphicon-pencil edit-client-btn" onClick={this.openUpdateClientModal.bind(this, client.greenhouse)}></button>
+                            <button className="glyphicon glyphicon-refresh refresh-client-btn" onClick={this.handleRefresh.bind(this, client.greenhouse.id)}></button>
                         </td>
                     </tr>
                 );
