@@ -66,6 +66,7 @@ const clientReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 client: {
                     ...state.client,
+                    data: action.data,
                     loading: action.loading
                 }
             };

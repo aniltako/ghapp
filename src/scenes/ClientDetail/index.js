@@ -18,6 +18,7 @@ class ClientDetail extends Component {
                         onDeleteClick={ (id) => this.props.removeClient(id) }
                         totalJobsdata= {this.props.totalJobsData}
                         onUpdateClick={ (client) => this.props.updateClient(client) }
+                        onRefreshClick={ (id) => this.props.refreshClient(id) }
                     />
                 </div>
             </div>

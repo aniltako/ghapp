@@ -205,6 +205,11 @@ class ClientDetailList extends Component{
         browserHistory.push('/');
     }
 
+    handleRefresh = (id) => {
+
+        this.props.onRefreshClick(id);
+    }
+
     render() {
 
         var  button = null;
@@ -231,12 +236,13 @@ class ClientDetailList extends Component{
                         <td >{ client.greenhouse.careersUrl }</td>
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
-                        <td >{this.state.totalJobs }</td>
+                        <td >{ client.greenhouse.totalJobs }</td>
 
 
                         <td >
                             <button className="delete-client-btn" value={client.greenhouse.id} onClick={this.openDeleteModal}>Delete</button>
                             <button value="updateClient" className="edit-client-btn" onClick={this.openUpdateClientModal.bind(this, client.greenhouse)}>Edit</button>
+                            <button className="refresh-client-btn" onClick={this.handleRefresh.bind(this, client.greenhouse.id)}>Refresh</button>
                         </td>
                     </tr>
                 );
