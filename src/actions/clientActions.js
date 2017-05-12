@@ -14,6 +14,13 @@ const UPDATE_CLIENT = "UPDATE_CLIENT";
 const UPDATE_CLIENT_SUCCESS = "UPDATE_CLIENT_SUCCESS";
 const UPDATE_CLIENT_FAILURE = "UPDATE_CLIENT_FAILURE";
 
+
+const REFRESH_CLIENT = "REFRESH_CLIENT";
+const REFRESH_CLIENT_SUCCESS = "REFRESH_CLIENT_SUCCESS";
+const REFRESH_CLIENT_FAILURE = "REFRESH_CLIENT_FAILURE";
+
+
+
 export function fetchClients() {
 
     return function (dispatch) {
@@ -191,6 +198,51 @@ export function updateClientFailure(error) {
     return {
         type: UPDATE_CLIENT_FAILURE, loading: false
     };
+}
+
+export function refreshClient(id) {
+
+
+    return function (dispatch) {
+
+
+        dispatch({type: REFRESH_CLIENT, loading: true})
+
+
+        return fetch('http://localhost:8090/api/greenhouseClient/totalJobs/'+id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                dispatch(refreshClientSuccess(responseData))
+            })
+            .catch((error) => {
+                dispatch(refreshClientFailure(error))
+            });
+    }
+}
+
+
+export function refreshClientSuccess(clients) {
+
+
+    return function (dispatch) {
+
+        dispatch({type: REFRESH_CLIENT_SUCCESS, loading: false})
+    }
+}
+
+
+export function refreshClientFailure(error) {
+
+
+    return function (dispatch) {
+
+        dispatch({type: REFRESH_CLIENT_FAILURE, loading: false})
+    }
 }
 
 

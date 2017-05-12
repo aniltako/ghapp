@@ -16,6 +16,10 @@ const UPDATE_CLIENT = "UPDATE_CLIENT";
 const UPDATE_CLIENT_SUCCESS = "FETCH_CLIENTS_SUCCESS";
 const UPDATE_CLIENT_FAILURE = "FUPDATE_CLIENT_FAILURE";
 
+const REFRESH_CLIENT = "REFRESH_CLIENT";
+const REFRESH_CLIENT_SUCCESS = "REFRESH_CLIENT_SUCCESS";
+const REFRESH_CLIENT_FAILURE = "REFRESH_CLIENT_FAILURE";
+
 const clientReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
@@ -66,7 +70,6 @@ const clientReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 client: {
                     ...state.client,
-                    data: action.data,
                     loading: action.loading
                 }
             };
@@ -99,7 +102,6 @@ const clientReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 client: {
                     ...state.client,
-                    data: action.data,
                     loading: action.loading
                 }
             };
@@ -130,13 +132,42 @@ const clientReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 client: {
                     ...state.client,
-                    data: action.data,
                     loading: action.loading
                 }
             };
             break;
 
         case UPDATE_CLIENT_FAILURE:
+            state = {
+                ...state,
+                client: {
+                    ...state.client,
+                    loading: action.loading
+                }
+            };
+            break;
+
+        case REFRESH_CLIENT:
+            state = {
+                ...state,
+                client: {
+                    ...state.client,
+                    loading: action.loading
+                }
+            };
+            break;
+
+        case REFRESH_CLIENT_SUCCESS:
+            state = {
+                ...state,
+                client: {
+                    ...state.client,
+                    loading: action.loading
+                }
+            };
+            break;
+
+        case FETCH_CLIENTS_FAILURE:
             state = {
                 ...state,
                 client: {
