@@ -91,6 +91,7 @@ export function saveClientSuccess(responseData) {
 
         if (responseData.cas !== null) {
             dispatch({type: SAVE_CLIENT_SUCCESS, loading: false})
+
         } else {
             dispatch(saveClientFailure)
         }

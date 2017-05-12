@@ -16,6 +16,7 @@ class ClientDetailList extends Component{
             showErrorModel: false,
             clientId: '',
             formType: '',
+            totalJobs: '',
             client : {
                 companyName: '',
                 domainUrl: '',
@@ -32,10 +33,8 @@ class ClientDetailList extends Component{
         filter = input.value.toUpperCase();
         table = document.getElementById("client-table");
         tr = table.getElementsByTagName("tr");
-        console.log(tr,"TR LENGTH");
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
-            console.log(td,"td");
             if (td) {
                 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
@@ -82,10 +81,11 @@ class ClientDetailList extends Component{
     handleSaveClient = () => {
 
         var companyName = this.state.client.companyName;
-        if( companyName !== ''){
+
+        if( companyName !== '' ){
             this.props.onSaveClick(this.state.client);
             this.setState({ showModal: false});
-            browserHistory.push('/clientList');
+            browserHistory.push('/');
         }else{
             this.openErrorModal();
         }
@@ -231,6 +231,9 @@ class ClientDetailList extends Component{
                         <td >{ client.greenhouse.careersUrl }</td>
                         <td >{ client.greenhouse.linkedInUrl }</td>
                         <td >{ client.greenhouse.boardToken }</td>
+                        <td >{this.state.totalJobs }</td>
+
+
                         <td >
                             <button className="delete-client-btn" value={client.greenhouse.id} onClick={this.openDeleteModal}>Delete</button>
                             <button value="updateClient" className="edit-client-btn" onClick={this.openUpdateClientModal.bind(this, client.greenhouse)}>Edit</button>
@@ -249,7 +252,6 @@ class ClientDetailList extends Component{
                         <div className="add-client-button">
                             <button value="addClient" type="button" onClick={ this.openFormModal } className="btn btn-primary add-client">Add Greenhouse Client</button>
                         </div>
-
                         <input type="text" id="searchInput" onKeyUp={this.handleKeyUp} placeholder="Search by company name..." title="Type in a name" />
 
                         <table id="client-table">
@@ -260,6 +262,8 @@ class ClientDetailList extends Component{
                                 <th >Careers Url </th>
                                 <th >LinkedIn Url </th>
                                 <th >Board Token </th>
+                                <th >Total Jobs </th>
+
                             </tr>
 
                             {clientDetailList}
