@@ -46,9 +46,15 @@ class ClientDetailList extends Component{
     }
 
     openFormModal = (e, id) => {
+        console.log(e.target.value,"BUTTON VALUE");
+        if(e.target.value == "updateClient"){
 
-        if(e.target.value == "addClient"){
-
+            this.setState({
+                clientId:id,
+                showModal: true,
+                formType: "Update Client"
+            });
+        }else{
             this.setState({
 
                 showModal: true,
@@ -61,13 +67,7 @@ class ClientDetailList extends Component{
                     linkedInUrl: ''
                 }
             });
-        }else{
 
-            this.setState({
-                clientId:id,
-                showModal: true,
-                formType: "Update Client"
-            });
         }
     }
 
