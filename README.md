@@ -1,5 +1,7 @@
 ## Project setup
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/aniltako/ghapp.svg)](https://greenkeeper.io/)
+
 Clone this project to your local workspace.<br/>
 `cd \path\to\project`<br/>
 
